@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <link rel="image_src" type="image/png" href="{{image}}">
+
+    <meta property="og:image" content="{{image}}">
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:url" content="{{url}}">
+    <meta property="og:site_name" content="{{title}}">
+    <meta property="og:type" content="website">
+
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:title" content="{{title}}">
+    <meta property="twitter:description" content="{{description}}">
+    <meta property="twitter:image:src" content="{{image}}">
+
+    <!--
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.ico">
+    -->
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/0.9.4/chartist.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+
+  <body>
+
+    {{{body}}}
+
+    {{#showGA}}
+    <script type='text/javascript'>
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', '{{googleAnalytics}}']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    {{/showGA}}
+
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<div>
+  <div class="top-nav">
+    <div class="brand">Ludum Dare API Ratings</div>
+  </div>
+
+  <div class="sec-nav">
+    <div class="content">
+      <div class="search">
+        <input id="username" type="text" placeholder="LudumDare username">
+        <a id="fetch">Fetch</a>
+      </div>
+
+      <div class="tabs">
+        <a data-tab="rates" class="active">Rating</a>
+        <a data-tab="data">Rating Data</a>
+        <a data-tab="standings">Standings</a>
+        <a data-tab="podium">Standings Grid</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content page">
+    <div class="tab-content rates active">
+      <div class="ct-chart-rates ct-minor-seventh"></div>
+      <ul class="categories"></ul>
+    </div>
+    <div class="tab-content data">
+      <table id="rates-data"></table>
+    </div>
+    <div class="tab-content standings">
+      <div class="ct-chart-standings ct-minor-seventh"></div>
+      <ul class="categories"></ul>
+    </div>
+    <div class="tab-content podium">
+      <table id="position-data"></table>
+    </div>
+  </div>
+
+  <div class="loading"><span>LOADING ...</span></div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/chartist.js/0.9.4/chartist.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+<script src="/js/index.js"></script>
