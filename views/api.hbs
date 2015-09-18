@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+<style>
+  .hljs {
+    background: #E3E3E3;
+    border-radius: 4px;
+  }
+</style>
+<div class="top-nav">
+  <a href="/" class="brand">Ludum Dare Stats</a>
+</div>
+
+<div class="content api-page">
+  <h1>API DOCS</h1>
+  <p>It's pretty straight forward, there is only one resource which is the username as an Author of Ludum Dare games.</p>
+  <label class="hl-line">GET</label><label class="hl-line">http://ldstats.info/api/authors/[username]</label>
+  <h4>JSON Response</h4>
+  <pre><code class="js">
+  {
+    link: String, // full url to Author page
+    ldUser: String, // LudumDare username
+    ldUserId: String, // LudumDare UserId
+    ludums: [Number], // Ludum Dare Numbers where this author participated
+
+    entries:[{ // Array of entries for this author
+
+      link: String, // full url to entry page
+      ludum: Number, // Ludum number of this entry
+      title: String, // Entry title
+      type: String, // Enum: "compo", "jam" or "unknown"
+      total: Number // Total Entries for this ludum
+
+      ratings: {
+        coolness: Number, // Coolness as percentage. ie: 75
+        fun:{
+          position: Number, // Position for this category. ie: 400
+          rate: Number // Rate on this category. ie: 3.54
+        },
+        theme:{
+          position: Number,
+          rate: Number
+        },
+        innovation:{
+          position: Number,
+          rate: Number
+        },
+        audio:{
+          position: Number,
+          rate: Number
+        },
+        overall:{
+          position: Number,
+          rate: Number
+        },
+        mood:{
+          position: Number,
+          rate: Number
+        },
+        graphics:{
+          position: Number,
+          rate: Number
+        },
+        humor:{
+          position: Number,
+          rate: Number
+        }
+      }
+    }]
+  }
+  </code></pre>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+</script>

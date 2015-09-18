@@ -10,6 +10,7 @@ $(function(){
 function attachEvents(){
 
   $('.loading').hide();
+  $('.tabs-ctn, .tabs').hide();
 
   $('.tabs>a').on('click', function(){
     var tab = $(this).attr('data-tab');
@@ -18,14 +19,41 @@ function attachEvents(){
     buildTab(tab);
   });
 
-  $('#fetch').on('click', function(){
+  function updateShares(author){
+    var twLink = 'https://twitter.com/intent/tweet?url=https%3A%2F%2Fldstats.info%2F{{author}}&hashtags=ldstats&text=Checkout+my+LudumDare+Stats';
+    var fbLink = 'http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fldstats.info%2F{{author}}&t=Checkout+my+LudumDare+Stats';
+    var gpLink = 'https://plus.google.com/share?url=https%3A%2F%2Fldstats.info%2F{{author}}';
+    
+    $('.zocial.icon.twitter').attr('href', twLink.replace('{{author}}', author));
+    $('.zocial.icon.facebook').attr('href', fbLink.replace('{{author}}', author));
+    $('.zocial.icon.googleplus').attr('href', gpLink.replace('{{author}}', author));
+  }
+
+  function onFetch(atURL){
     var author = $('#username').val();
     if (author.trim().length){
+
+      if (!atURL && window.history && window.history.pushState){
+        window.history.pushState(null, null, "/" + author);
+      }
+
+      updateShares(author);
+
       $('.loading').show();
       clearView();
       fetchAuthor(author.trim());
     }
+  }
+
+  $('#fetch').on('click', onFetch)
+  $('#username').on('keyup', function(e){
+    if (e.keyCode === 13) onFetch();
   });
+
+  if (window.run_author){
+    $('#username').val(window.run_author);
+    onFetch(true);
+  }
 }
 
 function clearView(){
@@ -34,15 +62,26 @@ function clearView(){
 }
 
 function fetchAuthor(author){
-  $.get('/api/authors/' + author, function(author){
-    window.author = author;
-    window.rates = getData("rate");
-    window.positions = getData("position");
+  $('.not-found').hide();
+  $('.tabs-ctn, .tabs').hide();
 
-    var curr = $('.tabs>a.active').attr('data-tab');
-    buildTab(curr);
-    $('.loading').hide();
-  });
+  $.get('/api/authors/' + author)
+    .done(function(author){
+      $('.tabs-ctn, .tabs').show();
+
+      window.author = author;
+      window.rates = getData("rate");
+      window.positions = getData("position");
+
+      var curr = $('.tabs>a.active').attr('data-tab');
+      buildTab(curr);
+    })
+    .fail(function() {
+      $('.not-found').show();
+    })
+    .always(function() {
+      $('.loading').hide();
+    });
 }
 
 function buildTab(tab){

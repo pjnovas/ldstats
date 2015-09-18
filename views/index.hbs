@@ -1,6 +1,26 @@
 <div>
   <div class="top-nav">
-    <div class="brand">Ludum Dare API Ratings</div>
+    <a href="/" class="brand">Ludum Dare Stats</a>
+    <div class="right-nav">
+      <a class="zocial icon twitter" title="Tweet it!"
+        href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fldstats.info&hashtags=ldstats&text=LudumDare+Stats">
+        Tweet it!
+      </a>
+      <a class="zocial icon facebook" title="Share it!"
+        href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fldstats.info&t=LudumDare+Stats"
+        onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;">
+        Share it!
+      </a>
+      <a class="zocial icon googleplus" title="Share it!"
+        href="https://plus.google.com/share?url=https%3A%2F%2Fldstats.info"
+        onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;">
+        Share it!
+      </a>
+      <a class="zocial icon github" title="Fork me on GitHub" href="https://github.com/pjnovas/ldstats" target="_blank">
+        Fork me on Github
+      </a>
+      <a class="api-link" href="/api">API Docs</a>
+    </div>
   </div>
 
   <div class="sec-nav">
@@ -20,19 +40,27 @@
   </div>
 
   <div class="content page">
-    <div class="tab-content rates active">
-      <div class="ct-chart-rates ct-minor-seventh"></div>
-      <ul class="categories"></ul>
+    <div class="not-found">
+      <h2>Username not found</h2>
+      <p>Make sure you are trying the username instead of the display name.</p>
+      <p>The username can be found at the url as http://ludumdare.com/compo/author/[username]/</p>
+      <p>Some users retrieves a not found from the ludumdare site, those cannot be fetch.</p>
     </div>
-    <div class="tab-content data">
-      <table id="rates-data"></table>
-    </div>
-    <div class="tab-content standings">
-      <div class="ct-chart-standings ct-minor-seventh"></div>
-      <ul class="categories"></ul>
-    </div>
-    <div class="tab-content podium">
-      <table id="position-data"></table>
+    <div class="tabs-ctn">
+      <div class="tab-content rates active">
+        <div class="ct-chart-rates ct-minor-seventh"></div>
+        <ul class="categories"></ul>
+      </div>
+      <div class="tab-content data">
+        <table id="rates-data"></table>
+      </div>
+      <div class="tab-content standings">
+        <div class="ct-chart-standings ct-minor-seventh"></div>
+        <ul class="categories"></ul>
+      </div>
+      <div class="tab-content podium">
+        <table id="position-data"></table>
+      </div>
     </div>
   </div>
 
@@ -43,4 +71,12 @@
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/chartist.js/0.9.4/chartist.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+
+{{#if run_author}}
+<script type="text/javascript">
+  window.run_author = "{{run_author}}";
+</script>
+{{/if}}
+
 <script src="/js/index.js"></script>
+<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>

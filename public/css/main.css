@@ -9,23 +9,63 @@ body {
   position: fixed;
   width: 100%;
   background-color: #333;
-  padding: 10px 20px;
+  padding: 10px 0;
   color: #ddd;
   text-align: center;
+  z-index: 2;
 }
 
-.brand {
+.zocial.icon {
+  margin: 0;
+  font-size: 12px;
+  box-shadow: none;
+  text-shadow: none;
+  border-bottom: none;
+  background-image: none;
+}
+
+.zocial.icon:hover,
+.zocial.icon:focus {
+  background-image: none;
+}
+
+.zocial.icon.twitter, .zocial.icon.facebook {
+  color: #fff;
+}
+
+.brand, .brand:hover {
+  margin: 0 10px;
+  color: #ddd;
+  text-decoration: none;
   float: left;
 }
 
-.menu {
+.right-nav {
   float: right;
+}
+
+.right-nav a {
+  color: #ddd;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.right-nav .api-link {
+  vertical-align: top;
+  display: inline-table;
+  font-weight: 500;
+  padding: 4px 7px;
+  background-color: #737373;
+  margin: 0;
+  margin-right: 10px;
+  border-radius: 3px;
+  color: #eee;
 }
 
 .sec-nav {
   width: 100%;
   background-color: #333;
-  padding: 40px 0 15px 0;
+  padding: 60px 0 8px 0;
   color: #ddd;
 }
 
@@ -38,17 +78,22 @@ body {
 
 .sec-nav .tabs a {
   padding: 15px 10px 15px 10px;
+  border-radius: 5px 5px 0 0;
 }
 
 .sec-nav .tabs a:hover {
-  background-color: #ddd;
-  color: #333;
+  background-color: #A79C8B;
   cursor: pointer;
+  color: #333;
 }
 
 .sec-nav .tabs a.active {
-  background-color: #ddd;
+  background-color: #CCC2B2;
   color: #333;
+}
+
+.tabs, .tabs-ctn {
+  display: none;
 }
 
 .tab-content {
@@ -67,7 +112,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 90px;
+  top: 0;
   left: 0;
   z-index: 2;
   background-color: rgba(0,0,0,0.7);
@@ -75,7 +120,18 @@ body {
   vertical-align: middle;
   text-align: center;
   display: table-cell;
-  padding-top: 100px;
+}
+
+.loading span {
+  margin-top: 100px;
+  display: block;
+  font-size: 40px;
+  font-weight: 400;
+}
+
+.not-found {
+  display: none;
+  width: 100%;
 }
 
 #fetch {
@@ -106,6 +162,10 @@ body {
 
 .content.page {
   padding-top: 20px;
+}
+
+.content.api-page {
+  padding-top: 50px;
 }
 
 .categories {
@@ -307,4 +367,12 @@ table tr td a {
 .cell-hover {
   background-color: #DED6C8;
   border: 1px solid white;
+}
+
+
+.hl-line {
+  margin: 0 5px;
+  background-color: #E3E3E3;
+  padding: 5px 10px;
+  border-radius: 4px;
 }
