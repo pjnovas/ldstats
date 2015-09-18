@@ -122,13 +122,23 @@ function getData(field) {
       return entry.ratings[name] && entry.ratings[name][field] || 0;
     }
 
+    var cLen = 0;
     categories.forEach(function(category){
       var value = getValue(category);
       en[category] = value;
-      en.average += value;
+      if (value) {
+        cLen++;
+        en.average += value;
+      }
     });
 
-    en.average = parseFloat((en.average / categories.length).toFixed(2));
+    if (!en.average) {
+      en.average = 0;
+    }
+    else {
+      en.average = parseFloat((en.average / cLen).toFixed(2));
+    }
+
     return en;
   });
 }
@@ -219,7 +229,7 @@ function buildRatesData(entries, sort){
 }
 
 function buildPositionData(entries, sort){
-  var _categories = categories;//.concat(["average"]);
+  var _categories = categories;
   sort = sort || { dir: 'asc', col: 'ludum' };
 
   var $table = $('#position-data').empty();
@@ -400,12 +410,12 @@ function buildRatesChart(entries){
 
         if (el.hasClass('off')){
           el.removeClass('off');
-          $('g.ct-series-' + idx).show();
+          $('g.ct-series-' + idx, '.ct-chart-rates').show();
           return;
         }
 
         el.addClass('off');
-        $('g.ct-series-' + idx).hide();
+        $('g.ct-series-' + idx, '.ct-chart-rates').hide();
       });
 
       return $li;
@@ -414,7 +424,7 @@ function buildRatesChart(entries){
 
   chart.on('created', function() {
     var i = catsPlusAVG.length-1;
-    $('g.ct-series-' + String.fromCharCode(97 + i)).hide();
+    $('g.ct-series-' + String.fromCharCode(97 + i), '.ct-chart-rates').hide();
   });
 
 }
@@ -431,7 +441,7 @@ function buildPositionsChart(entries){
     return {
       name: category,
       data: _.map(aentries, function(entry){
-        return entry[category]*-1 || null;
+        return (entry[category] && entry[category]*-1) || null;
       })
     };
   });
@@ -512,12 +522,12 @@ function buildPositionsChart(entries){
 
         if (el.hasClass('off')){
           el.removeClass('off');
-          $('g.ct-series-' + idx).show();
+          $('g.ct-series-' + idx, '.ct-chart-standings').show();
           return;
         }
 
         el.addClass('off');
-        $('g.ct-series-' + idx).hide();
+        $('g.ct-series-' + idx, '.ct-chart-standings').hide();
       });
 
       return $li;
