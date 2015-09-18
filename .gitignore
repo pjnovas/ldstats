@@ -31,5 +31,4 @@ npm-debug.log
 node_modules
 config/config.json
 config/config.prod.json
-test.html
-test_entry.html
+test*.html

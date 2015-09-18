@@ -310,6 +310,20 @@ table tr td.highlight {
   font-weight: 400;
 }
 
+table tr td.top-1 {
+  color: #333;
+  background-color: #E1C00F;
+}
+
+table tr td.top-2 {
+  color: #333;
+  background-color: #A0A0A0;
+}
+
+table tr td.top-3 {
+  background-color: #DB9046;
+}
+
 table tr td:hover {
   font-weight: 600;
 }

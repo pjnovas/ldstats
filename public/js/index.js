@@ -23,7 +23,7 @@ function attachEvents(){
     var twLink = 'https://twitter.com/intent/tweet?url=https%3A%2F%2Fldstats.info%2F{{author}}&hashtags=ldstats&text=Checkout+my+LudumDare+Stats';
     var fbLink = 'http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fldstats.info%2F{{author}}&t=Checkout+my+LudumDare+Stats';
     var gpLink = 'https://plus.google.com/share?url=https%3A%2F%2Fldstats.info%2F{{author}}';
-    
+
     $('.zocial.icon.twitter').attr('href', twLink.replace('{{author}}', author));
     $('.zocial.icon.facebook').attr('href', fbLink.replace('{{author}}', author));
     $('.zocial.icon.googleplus').attr('href', gpLink.replace('{{author}}', author));
@@ -260,6 +260,9 @@ function buildPositionData(entries, sort){
       _.map(_categories, function(category){
         var value = entry[category];
         if (value > 0 && value <= 100){
+          if (value < 4){
+            return '<td class="highlight top-'+value+'">'+value+'</td>';
+          }
           return '<td class="highlight">'+value+'</td>';
         }
         return '<td>'+value+'</td>';
