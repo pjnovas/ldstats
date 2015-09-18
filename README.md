@@ -1,5 +1,5 @@
 # ldstats - Ludum Dare Ratings
-Ratings API for Ludum Dare. Check it [out here](http://)
+Ratings API for Ludum Dare. Check it [out here](http://ldstats.info)
 
 ## Compile and run the project
 
