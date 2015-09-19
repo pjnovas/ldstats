@@ -186,7 +186,8 @@ body {
   background-color: #DDDDDD;
 }
 
-.categories li:last-child {
+.rates .categories li:last-child,
+.standings .categories li:nth-last-child(3) {
   margin-top: 6px;
 }
 
@@ -248,8 +249,8 @@ body {
 }
 
 .ct-series-e .ct-line,.ct-series-e .ct-point, .categories>li:nth-child(5) {
-  stroke: #453d3f;
-  color: #453d3f;
+  stroke: #993951;
+  color: #993951;
 }
 
 .ct-series-f .ct-line,.ct-series-f .ct-point, .categories>li:nth-child(6) {
@@ -267,16 +268,29 @@ body {
   color: #6b0392;
 }
 
-.ct-series-i .ct-line,.ct-series-i .ct-point, .categories>li:nth-child(9) {
-  stroke: #eee;
-  color: #eee;
+.standings .ct-series-i .ct-line, .standings .ct-series-i .ct-point, .standings .categories>li:nth-child(9) {
+  /*compo entries*/
+  stroke: #939393;
+  color: #939393;
 }
 
-.ct-series-i .ct-line {
+.standings .ct-series-j .ct-line, .standings .ct-series-j .ct-point, .standings .categories>li:nth-child(10) {
+  /*jam entries*/
+  stroke: #727272;
+  color: #727272;
+}
+
+.rates .ct-series-i .ct-line, .rates .ct-series-i .ct-point, .rates .categories>li:nth-child(9),
+.standings .ct-series-k .ct-line, .standings .ct-series-k .ct-point, .standings .categories>li:nth-child(11) {
+  stroke: #453d3f;
+  color: #453d3f;
+}
+
+.rates .ct-series-i .ct-line {
   stroke-width: 10px;
 }
 
-.ct-series-i .ct-point {
+.rates .ct-series-i .ct-point {
   stroke-width: 20px;
 }
 
@@ -310,18 +324,29 @@ table tr td.highlight {
   font-weight: 400;
 }
 
-table tr td.top-1 {
-  color: #333;
+table tr td.top-1>div,
+table tr td.top-2>div,
+table tr td.top-3>div {
+  margin: 0 auto;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: -1px -2px 4px rgba(0,0,0,0.2) inset;
+}
+
+table tr td.top-1>div {
   background-color: #E1C00F;
+  border: 2px solid #B89F18;
 }
 
-table tr td.top-2 {
-  color: #333;
+table tr td.top-2>div {
   background-color: #A0A0A0;
+  border: 2px solid #878787;
 }
 
-table tr td.top-3 {
+table tr td.top-3>div {
   background-color: #DB9046;
+  border: 2px solid #BF7935;
 }
 
 table tr td:hover {

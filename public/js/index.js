@@ -114,6 +114,8 @@ function getData(field) {
       title: entry.title,
       link: entry.link,
       type: entry.type,
+      totalCompo: entry.totalCompo,
+      totalJam: entry.totalJam,
       total: entry.total,
       average: 0
     };
@@ -156,8 +158,6 @@ function buildRatesData(entries, sort){
   var $thead = $('<thead>').appendTo($table);
   var $tbody = $('<tbody>').appendTo($table);
 
-  $table.append()
-
   var $theadTR = $(
     '<tr>' +
       '<th data-sort="ludum">LD</th>' +
@@ -185,7 +185,7 @@ function buildRatesData(entries, sort){
         if (value >= 4){
           return '<td class="highlight">'+value+'</td>';
         }
-        return '<td>'+value+'</td>';
+        return '<td>'+(value || '-')+'</td>';
       })
     );
 
@@ -241,8 +241,6 @@ function buildPositionData(entries, sort){
   var $thead = $('<thead>').appendTo($table);
   var $tbody = $('<tbody>').appendTo($table);
 
-  $table.append()
-
   var $theadTR = $(
     '<tr>' +
       '<th data-sort="ludum">LD</th>' +
@@ -271,15 +269,20 @@ function buildPositionData(entries, sort){
         var value = entry[category];
         if (value > 0 && value <= 100){
           if (value < 4){
-            return '<td class="highlight top-'+value+'">'+value+'</td>';
+            return '<td class="highlight top-'+value+'"><div title="TOP '+value+'"></div></td>';
           }
           return '<td class="highlight">'+value+'</td>';
         }
-        return '<td>'+value+'</td>';
+        return '<td>'+(value || '-')+'</td>';
       })
     );
 
-    $tr.append('<td>'+entry.total+'</td>');
+    var total = entry.totalCompo;
+    if (entry.type === 'jam'){
+      total = entry.totalJam;
+    }
+
+    $tr.append('<td>'+total+'</td>');
 
     return $tr;
   });
@@ -348,7 +351,7 @@ function buildRatesChart(entries){
     }),
     chartPadding: {
       top: 20,
-      right: 60,
+      right: 120,
       bottom: 20,
       left: 0
     },
@@ -430,27 +433,25 @@ function buildRatesChart(entries){
 }
 
 function buildPositionsChart(entries){
-  var catsPlusTotals = categories.concat(["entries"]);
+  var catsPlusTotals = categories.concat(["totalCompo", "totalJam", "total"]);
   var aentries = _.sortBy(entries, 'ludum');
 
   var labels = _.map(aentries, function(entry){
     return 'LD' + entry.ludum;
   });
 
-  var series = categories.map(function(category){
+  var series = catsPlusTotals.map(function(category){
+    var name = category;
+    if (name === "totalCompo") name = "compo entries";
+    if (name === "totalJam") name = "jam entries";
+    if (name === "total") name = "total entries";
+
     return {
-      name: category,
+      name: name,
       data: _.map(aentries, function(entry){
         return (entry[category] && entry[category]*-1) || null;
       })
     };
-  });
-
-  series.push({
-    name: "entries",
-    data: _.map(aentries, function(entry){
-      return entry.total*-1 || null;
-    })
   });
 
   var chart = new Chartist.Line('.ct-chart-standings', {
@@ -461,7 +462,7 @@ function buildPositionsChart(entries){
     //low: -3000,
     chartPadding: {
       top: 20,
-      right: 60,
+      right: 120,
       bottom: 20,
       left: 10
     },
@@ -515,7 +516,11 @@ function buildPositionsChart(entries){
   $categories.empty().append(
     catsPlusTotals.map(function(category, i){
       var idx = String.fromCharCode(97 + i);
-      var $li = $('<li>'+category+'</li>');
+
+      var name = category;
+      if (name === "totalCompo") name = "compo entries";
+      if (name === "totalJam") name = "jam entries";
+      var $li = $('<li>'+name+'</li>');
 
       $li.on('click', function(){
         var el = $(this);
