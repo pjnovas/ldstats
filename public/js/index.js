@@ -12,9 +12,9 @@ function attachEvents(){
   $('.loading').hide();
   $('.tabs-ctn, .tabs').hide();
 
-  $('.tabs>a').on('click', function(){
+  $('.tabs a').on('click', function(){
     var tab = $(this).attr('data-tab');
-    $('.tab-content.active, .tabs>a.active').removeClass('active');
+    $('.tab-content.active, .tabs a.active').removeClass('active');
     $('.tab-content.' + tab).add(this).addClass('active');
     buildTab(tab);
   });
@@ -70,10 +70,11 @@ function fetchAuthor(author){
       $('.tabs-ctn, .tabs').show();
 
       window.author = author;
-      window.rates = getData("rate");
-      window.positions = getData("position");
+      window.rates = getData(categories.concat(["average"]), "scores");
+      window.positions = getData(categories.concat(["total"]), "ranking");
+      window.percents = getData(categories, "percents");
 
-      var curr = $('.tabs>a.active').attr('data-tab');
+      var curr = $('.tabs a.active').attr('data-tab');
       buildTab(curr);
     })
     .fail(function() {
@@ -100,13 +101,19 @@ function buildTab(tab){
       case "podium":
         buildPositionData(window.positions);
         break;
+      case "percents":
+        buildPercentsData(window.percents);
+        break;
+      case "coolness":
+        buildCoolnessData(_.cloneDeep(window.author.entries));
+        break;
     }
 
     builtTabs.push(tab);
   }
 }
 
-function getData(field) {
+function getData(categories, field) {
   return _.map(_.cloneDeep(window.author.entries), function(entry, i){
 
     var en = {
@@ -114,32 +121,16 @@ function getData(field) {
       title: entry.title,
       link: entry.link,
       type: entry.type,
-      totalCompo: entry.totalCompo,
-      totalJam: entry.totalJam,
-      total: entry.total,
-      average: 0
     };
 
     function getValue(name){
-      return entry.ratings[name] && entry.ratings[name][field] || 0;
+      return entry[field][name] && entry[field][name] || 0;
     }
 
-    var cLen = 0;
     categories.forEach(function(category){
       var value = getValue(category);
       en[category] = value;
-      if (value) {
-        cLen++;
-        en.average += value;
-      }
     });
-
-    if (!en.average) {
-      en.average = 0;
-    }
-    else {
-      en.average = parseFloat((en.average / cLen).toFixed(2));
-    }
 
     return en;
   });
@@ -229,7 +220,7 @@ function buildRatesData(entries, sort){
 }
 
 function buildPositionData(entries, sort){
-  var _categories = categories;
+  var _categories = categories.concat(["total"]);
   sort = sort || { dir: 'asc', col: 'ludum' };
 
   var $table = $('#position-data').empty();
@@ -253,8 +244,6 @@ function buildPositionData(entries, sort){
     })
   );
 
-  $theadTR.append('<th data-sort="total">Entries</th>');
-
   $thead.append($theadTR);
 
   var sEntries = _.sortByOrder(entries, [sort.col], [sort.dir]);
@@ -276,13 +265,6 @@ function buildPositionData(entries, sort){
         return '<td>'+(value || '-')+'</td>';
       })
     );
-
-    var total = entry.totalCompo;
-    if (entry.type === 'jam'){
-      total = entry.totalJam;
-    }
-
-    $tr.append('<td>'+total+'</td>');
 
     return $tr;
   });
@@ -320,6 +302,156 @@ function buildPositionData(entries, sort){
 
       $table.off();
       buildPositionData(entries, { dir: dir, col: col });
+    });
+}
+
+function buildPercentsData(entries, sort){
+  var _categories = categories;
+  sort = sort || { dir: 'asc', col: 'ludum' };
+
+  var $table = $('#percents-data').empty();
+
+  var _cols = '';
+  _.times(_categories.length+2, function(i){ _cols += '<colgroup/>'; })
+  var $cols = $(_cols).appendTo($table);
+
+  var $thead = $('<thead>').appendTo($table);
+  var $tbody = $('<tbody>').appendTo($table);
+
+  var $theadTR = $(
+    '<tr>' +
+      '<th data-sort="ludum">LD</th>' +
+      '<th data-sort="title">Entry</th>' +
+    '</tr>');
+
+  $theadTR.append(
+    _.map(_categories, function(category){
+      return '<th data-sort="'+category+'">'+category+'</th>';
+    })
+  );
+
+  $thead.append($theadTR);
+
+  var sEntries = _.sortByOrder(entries, [sort.col], [sort.dir]);
+
+  var $rows = _.map(sEntries, function(entry, i){
+    var $tr = $('<tr>');
+    $tr.append('<td>'+entry.ludum+'</td>');
+    $tr.append('<td><a href="'+entry.link+'" target="_blank">'+entry.title+' ('+entry.type+')</a></td>');
+
+    $tr.append(
+      _.map(_categories, function(category){
+        var value = entry[category];
+        if (value < 10) {
+          return '<td class="highlight">'+value+'</td>';
+        }
+        return '<td>'+(value || '-')+'</td>';
+      })
+    );
+
+    return $tr;
+  });
+
+  $tbody.append($rows);
+
+  $thead
+    .find('th[data-sort='+sort.col+']')
+    .addClass('sorting').addClass(sort.dir)
+    .append('<div>');
+
+  $table
+    .on('mouseover', 'td', function(){
+      var i = $(this).prevAll('td').length;
+      $(this).parent().addClass('cell-hover');
+
+      if ($(this).index() > 1) {
+        $($cols[i]).addClass('cell-hover');
+      }
+    })
+    .on('mouseout', 'td', function(){
+      var i = $(this).prevAll('td').length;
+      $(this).parent().removeClass('cell-hover');
+      $($cols[i]).removeClass('cell-hover');
+    })
+    .on('mouseleave', function(){
+      $cols.removeClass('cell-hover');
+    })
+    .on('click', 'th', function(e){
+      var th = $(this);
+      var col = th.attr('data-sort');
+
+      var isSame = th.hasClass('sorting');
+      var dir = isSame && th.hasClass('asc') ? 'desc' : 'asc';
+
+      $table.off();
+      buildPercentsData(entries, { dir: dir, col: col });
+    });
+}
+
+function buildCoolnessData(entries, sort){
+  sort = sort || { dir: 'asc', col: 'ludum' };
+
+  var $table = $('#coolness-data').empty();
+
+  var _cols = '';
+  _.times(3, function(i){ _cols += '<colgroup/>'; })
+  var $cols = $(_cols).appendTo($table);
+
+  var $thead = $('<thead>').appendTo($table);
+  var $tbody = $('<tbody>').appendTo($table);
+
+  var $theadTR = $(
+    '<tr>' +
+      '<th data-sort="ludum">LD</th>' +
+      '<th data-sort="title">Entry</th>' +
+      '<th data-sort="coolness">Coolness</th>' +
+    '</tr>');
+
+  $thead.append($theadTR);
+
+  var sEntries = _.sortByOrder(entries, [sort.col], [sort.dir]);
+
+  var $rows = _.map(sEntries, function(entry, i){
+    var $tr = $('<tr>');
+    $tr.append('<td>'+entry.ludum+'</td>');
+    $tr.append('<td><a href="'+entry.link+'" target="_blank">'+entry.title+' ('+entry.type+')</a></td>');
+    $tr.append('<td>'+entry.coolness+'</td>');
+    return $tr;
+  });
+
+  $tbody.append($rows);
+
+  $thead
+    .find('th[data-sort='+sort.col+']')
+    .addClass('sorting').addClass(sort.dir)
+    .append('<div>');
+
+  $table
+    .on('mouseover', 'td', function(){
+      var i = $(this).prevAll('td').length;
+      $(this).parent().addClass('cell-hover');
+
+      if ($(this).index() > 1) {
+        $($cols[i]).addClass('cell-hover');
+      }
+    })
+    .on('mouseout', 'td', function(){
+      var i = $(this).prevAll('td').length;
+      $(this).parent().removeClass('cell-hover');
+      $($cols[i]).removeClass('cell-hover');
+    })
+    .on('mouseleave', function(){
+      $cols.removeClass('cell-hover');
+    })
+    .on('click', 'th', function(e){
+      var th = $(this);
+      var col = th.attr('data-sort');
+
+      var isSame = th.hasClass('sorting');
+      var dir = isSame && th.hasClass('asc') ? 'desc' : 'asc';
+
+      $table.off();
+      buildCoolnessData(entries, { dir: dir, col: col });
     });
 }
 
@@ -433,7 +565,7 @@ function buildRatesChart(entries){
 }
 
 function buildPositionsChart(entries){
-  var catsPlusTotals = categories.concat(["totalCompo", "totalJam", "total"]);
+  var catsPlusTotals = categories.concat(["total"]);
   var aentries = _.sortBy(entries, 'ludum');
 
   var labels = _.map(aentries, function(entry){

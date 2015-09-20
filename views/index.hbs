@@ -31,10 +31,20 @@
       </div>
 
       <div class="tabs">
-        <a data-tab="rates" class="active">Rating</a>
-        <a data-tab="data">Rating Data</a>
-        <a data-tab="standings">Standings</a>
-        <a data-tab="podium">Standings Grid</a>
+        <div>
+          <h4>Scores</h4>
+          <a data-tab="rates" class="active">Chart</a>
+          <a data-tab="data">Grid</a>
+        </div>
+        <div>
+          <h4>Standings</h4>
+          <a data-tab="standings">Chart</a>
+          <a data-tab="podium">Grid</a>
+          <a data-tab="percents">% Grid</a>
+        </div>
+        <div>
+          <a data-tab="coolness">Coolness</a>
+        </div>
       </div>
     </div>
   </div>
@@ -53,6 +63,7 @@
       </div>
       <div class="tab-content data">
         <table id="rates-data"></table>
+        <p>Highlighted values greater than 4.00</p>
       </div>
       <div class="tab-content standings">
         <div class="ct-chart-standings ct-minor-seventh"></div>
@@ -60,7 +71,17 @@
       </div>
       <div class="tab-content podium">
         <table id="position-data"></table>
-        <p>Entries (last column) is showing only the total for the type of ludum at each entry (compo or jam)</p>
+        <p>Total (last column) is showing only the total entries for the type of ludum at each one (compo or jam)</p>
+        <p>Highlighted values less than 100</p>
+      </div>
+      <div class="tab-content percents">
+        <table id="percents-data"></table>
+        <p>Values are in % over total entries for the type of ludum (compo or jam)</p>
+        <p>Highlighted values less than 10%</p>
+      </div>
+      <div class="tab-content coolness">
+        <table id="coolness-data"></table>
+        <p>Values are in %</p>
       </div>
     </div>
   </div>

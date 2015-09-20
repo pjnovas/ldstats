@@ -28,44 +28,42 @@
       title: String, // Entry title
       type: String, // Enum: "compo", "jam" or "unknown"
 
-      totalCompo: Number, // Total Compo Entries for this ludum
-      totalJam: Number, // Total Jam Entries for this ludum
-      total: Number // Total Entries Compo + Jam
+      coolness: Number, // Coolness as percentage. ie: 75
 
-      ratings: {
-        coolness: Number, // Coolness as percentage. ie: 75
-        fun:{
-          position: Number, // Position for this category. ie: 400
-          rate: Number // Rate on this category. ie: 3.54
-        },
-        theme:{
-          position: Number,
-          rate: Number
-        },
-        innovation:{
-          position: Number,
-          rate: Number
-        },
-        audio:{
-          position: Number,
-          rate: Number
-        },
-        overall:{
-          position: Number,
-          rate: Number
-        },
-        mood:{
-          position: Number,
-          rate: Number
-        },
-        graphics:{
-          position: Number,
-          rate: Number
-        },
-        humor:{
-          position: Number,
-          rate: Number
-        }
+      scores: {
+        fun: Number // Rate on this category. ie: 3.54
+        theme: Number,
+        innovation: Number,
+        audio: Number,
+        overall: Number,
+        mood: Number,
+        graphics: Number,
+        humor: Number,
+        average: Number // Average of categories. 0 is not calculated
+      },
+
+      ranking: {
+        fun: Number // Position for this category. ie: 400
+        theme: Number,
+        innovation: Number,
+        audio: Number,
+        overall: Number,
+        mood: Number,
+        graphics: Number,
+        humor: Number,
+        total: Number // total entries for this type (compo or jam)
+      }
+
+      percents: {
+        fun: Number // Percent position for this category. ie: 37.6
+        theme: Number,
+        innovation: Number,
+        audio: Number,
+        overall: Number,
+        mood: Number,
+        graphics: Number,
+        humor: Number
+        // where total entries are 100%
       }
     }]
   }

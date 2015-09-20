@@ -71,14 +71,35 @@ body {
 
 .sec-nav .tabs {
   position: absolute;
-  top: 10px;
+  top: 0;
   right: 0;
   display: block;
 }
 
+.sec-nav .tabs>div {
+  display: inline-block;
+  height: 45px;
+}
+
+.sec-nav .tabs>div {
+  border-right: 1px solid #999;
+  padding-right: 5px;
+}
+
+.sec-nav .tabs>div:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.sec-nav h4 {
+  margin: 0;
+  text-align: center;
+}
+
 .sec-nav .tabs a {
-  padding: 15px 10px 15px 10px;
+  padding: 3px 10px 2px 10px;
   border-radius: 5px 5px 0 0;
+  vertical-align: sub;
 }
 
 .sec-nav .tabs a:hover {
@@ -186,8 +207,7 @@ body {
   background-color: #DDDDDD;
 }
 
-.rates .categories li:last-child,
-.standings .categories li:nth-last-child(3) {
+.categories li:last-child {
   margin-top: 6px;
 }
 
@@ -268,20 +288,7 @@ body {
   color: #6b0392;
 }
 
-.standings .ct-series-i .ct-line, .standings .ct-series-i .ct-point, .standings .categories>li:nth-child(9) {
-  /*compo entries*/
-  stroke: #939393;
-  color: #939393;
-}
-
-.standings .ct-series-j .ct-line, .standings .ct-series-j .ct-point, .standings .categories>li:nth-child(10) {
-  /*jam entries*/
-  stroke: #727272;
-  color: #727272;
-}
-
-.rates .ct-series-i .ct-line, .rates .ct-series-i .ct-point, .rates .categories>li:nth-child(9),
-.standings .ct-series-k .ct-line, .standings .ct-series-k .ct-point, .standings .categories>li:nth-child(11) {
+.ct-series-i .ct-line, .ct-series-i .ct-point, .categories>li:nth-child(9) {
   stroke: #453d3f;
   color: #453d3f;
 }
@@ -349,10 +356,6 @@ table tr td.top-3>div {
   border: 2px solid #BF7935;
 }
 
-table tr td:hover {
-  font-weight: 600;
-}
-
 table tr th {
   border-width: 0px;
   text-transform: uppercase;
@@ -371,6 +374,20 @@ table tr th:nth-child(2) {
 
 table tr th:last-child {
   border: 1px solid rgba(0,0,0,0.2);
+}
+
+.percents table tr th:last-child{
+  border: none;
+}
+
+.percents table tr td:last-child{
+  border-style: dashed;
+  font-weight: 100;
+}
+
+table tr td:hover,
+.percents table tr td:hover {
+  font-weight: 600;
 }
 
 table tr th.sorting {
