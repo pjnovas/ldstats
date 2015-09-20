@@ -93,19 +93,34 @@ function buildTab(tab){
         buildRatesChart(window.rates);
         break;
       case "data":
-        buildRatesData(window.rates);
+        createDataTable('#rates-data', categories.concat(["average"]), window.rates, function(value){
+          if (value >= 4){
+            return '<td class="highlight">'+value+'</td>';
+          }
+        });
         break;
       case "standings":
         buildPositionsChart(window.positions);
         break;
       case "podium":
-        buildPositionData(window.positions);
+        createDataTable('#position-data', categories.concat(["total"]), window.positions, function(value){
+          if (value > 0 && value <= 100){
+            if (value < 4){
+              return '<td class="highlight top-'+value+'"><div title="TOP '+value+'"></div></td>';
+            }
+            return '<td class="highlight">'+value+'</td>';
+          }
+        });
         break;
       case "percents":
-        buildPercentsData(window.percents);
+        createDataTable('#percents-data', categories, window.percents, function(value){
+          if (value < 10) {
+            return '<td class="highlight">'+value+'</td>';
+          }
+        });
         break;
       case "coolness":
-        buildCoolnessData(_.cloneDeep(window.author.entries));
+        createDataTable('#coolness-data', ['coolness'], window.author.entries);
         break;
     }
 
@@ -136,14 +151,12 @@ function getData(categories, field) {
   });
 }
 
-function buildRatesData(entries, sort){
-  var _categories = categories.concat(["average"]);
+function createDataTable(id, columns, entries, onCellValue, sort){
   sort = sort || { dir: 'asc', col: 'ludum' };
-
-  var $table = $('#rates-data').empty();
+  var $table = $(id).empty();
 
   var _cols = '';
-  _.times(_categories.length+2, function(i){ _cols += '<colgroup/>'; })
+  _.times(columns.length+2, function(i){ _cols += '<colgroup/>'; })
   var $cols = $(_cols).appendTo($table);
 
   var $thead = $('<thead>').appendTo($table);
@@ -156,7 +169,7 @@ function buildRatesData(entries, sort){
     '</tr>');
 
   $theadTR.append(
-    _.map(_categories, function(category){
+    _.map(columns, function(category){
       return '<th data-sort="'+category+'">'+category+'</th>';
     })
   );
@@ -171,12 +184,9 @@ function buildRatesData(entries, sort){
     $tr.append('<td><a href="'+entry.link+'" target="_blank">'+entry.title+' ('+entry.type+')</a></td>');
 
     $tr.append(
-      _.map(_categories, function(category){
+      _.map(columns, function(category){
         var value = entry[category];
-        if (value >= 4){
-          return '<td class="highlight">'+value+'</td>';
-        }
-        return '<td>'+(value || '-')+'</td>';
+        return (onCellValue && onCellValue(value)) || '<td>'+(value || '-')+'</td>';
       })
     );
 
@@ -215,244 +225,10 @@ function buildRatesData(entries, sort){
       var dir = isSame && th.hasClass('asc') ? 'desc' : 'asc';
 
       $table.off();
-      buildRatesData(entries, { dir: dir, col: col });
+      createDataTable(id, columns, entries, onCellValue, { dir: dir, col: col });
     });
-}
 
-function buildPositionData(entries, sort){
-  var _categories = categories.concat(["total"]);
-  sort = sort || { dir: 'asc', col: 'ludum' };
-
-  var $table = $('#position-data').empty();
-
-  var _cols = '';
-  _.times(_categories.length+2, function(i){ _cols += '<colgroup/>'; })
-  var $cols = $(_cols).appendTo($table);
-
-  var $thead = $('<thead>').appendTo($table);
-  var $tbody = $('<tbody>').appendTo($table);
-
-  var $theadTR = $(
-    '<tr>' +
-      '<th data-sort="ludum">LD</th>' +
-      '<th data-sort="title">Entry</th>' +
-    '</tr>');
-
-  $theadTR.append(
-    _.map(_categories, function(category){
-      return '<th data-sort="'+category+'">'+category+'</th>';
-    })
-  );
-
-  $thead.append($theadTR);
-
-  var sEntries = _.sortByOrder(entries, [sort.col], [sort.dir]);
-
-  var $rows = _.map(sEntries, function(entry, i){
-    var $tr = $('<tr>');
-    $tr.append('<td>'+entry.ludum+'</td>');
-    $tr.append('<td><a href="'+entry.link+'" target="_blank">'+entry.title+' ('+entry.type+')</a></td>');
-
-    $tr.append(
-      _.map(_categories, function(category){
-        var value = entry[category];
-        if (value > 0 && value <= 100){
-          if (value < 4){
-            return '<td class="highlight top-'+value+'"><div title="TOP '+value+'"></div></td>';
-          }
-          return '<td class="highlight">'+value+'</td>';
-        }
-        return '<td>'+(value || '-')+'</td>';
-      })
-    );
-
-    return $tr;
-  });
-
-  $tbody.append($rows);
-
-  $thead
-    .find('th[data-sort='+sort.col+']')
-    .addClass('sorting').addClass(sort.dir)
-    .append('<div>');
-
-  $table
-    .on('mouseover', 'td', function(){
-      var i = $(this).prevAll('td').length;
-      $(this).parent().addClass('cell-hover');
-
-      if ($(this).index() > 1) {
-        $($cols[i]).addClass('cell-hover');
-      }
-    })
-    .on('mouseout', 'td', function(){
-      var i = $(this).prevAll('td').length;
-      $(this).parent().removeClass('cell-hover');
-      $($cols[i]).removeClass('cell-hover');
-    })
-    .on('mouseleave', function(){
-      $cols.removeClass('cell-hover');
-    })
-    .on('click', 'th', function(e){
-      var th = $(this);
-      var col = th.attr('data-sort');
-
-      var isSame = th.hasClass('sorting');
-      var dir = isSame && th.hasClass('asc') ? 'desc' : 'asc';
-
-      $table.off();
-      buildPositionData(entries, { dir: dir, col: col });
-    });
-}
-
-function buildPercentsData(entries, sort){
-  var _categories = categories;
-  sort = sort || { dir: 'asc', col: 'ludum' };
-
-  var $table = $('#percents-data').empty();
-
-  var _cols = '';
-  _.times(_categories.length+2, function(i){ _cols += '<colgroup/>'; })
-  var $cols = $(_cols).appendTo($table);
-
-  var $thead = $('<thead>').appendTo($table);
-  var $tbody = $('<tbody>').appendTo($table);
-
-  var $theadTR = $(
-    '<tr>' +
-      '<th data-sort="ludum">LD</th>' +
-      '<th data-sort="title">Entry</th>' +
-    '</tr>');
-
-  $theadTR.append(
-    _.map(_categories, function(category){
-      return '<th data-sort="'+category+'">'+category+'</th>';
-    })
-  );
-
-  $thead.append($theadTR);
-
-  var sEntries = _.sortByOrder(entries, [sort.col], [sort.dir]);
-
-  var $rows = _.map(sEntries, function(entry, i){
-    var $tr = $('<tr>');
-    $tr.append('<td>'+entry.ludum+'</td>');
-    $tr.append('<td><a href="'+entry.link+'" target="_blank">'+entry.title+' ('+entry.type+')</a></td>');
-
-    $tr.append(
-      _.map(_categories, function(category){
-        var value = entry[category];
-        if (value < 10) {
-          return '<td class="highlight">'+value+'</td>';
-        }
-        return '<td>'+(value || '-')+'</td>';
-      })
-    );
-
-    return $tr;
-  });
-
-  $tbody.append($rows);
-
-  $thead
-    .find('th[data-sort='+sort.col+']')
-    .addClass('sorting').addClass(sort.dir)
-    .append('<div>');
-
-  $table
-    .on('mouseover', 'td', function(){
-      var i = $(this).prevAll('td').length;
-      $(this).parent().addClass('cell-hover');
-
-      if ($(this).index() > 1) {
-        $($cols[i]).addClass('cell-hover');
-      }
-    })
-    .on('mouseout', 'td', function(){
-      var i = $(this).prevAll('td').length;
-      $(this).parent().removeClass('cell-hover');
-      $($cols[i]).removeClass('cell-hover');
-    })
-    .on('mouseleave', function(){
-      $cols.removeClass('cell-hover');
-    })
-    .on('click', 'th', function(e){
-      var th = $(this);
-      var col = th.attr('data-sort');
-
-      var isSame = th.hasClass('sorting');
-      var dir = isSame && th.hasClass('asc') ? 'desc' : 'asc';
-
-      $table.off();
-      buildPercentsData(entries, { dir: dir, col: col });
-    });
-}
-
-function buildCoolnessData(entries, sort){
-  sort = sort || { dir: 'asc', col: 'ludum' };
-
-  var $table = $('#coolness-data').empty();
-
-  var _cols = '';
-  _.times(3, function(i){ _cols += '<colgroup/>'; })
-  var $cols = $(_cols).appendTo($table);
-
-  var $thead = $('<thead>').appendTo($table);
-  var $tbody = $('<tbody>').appendTo($table);
-
-  var $theadTR = $(
-    '<tr>' +
-      '<th data-sort="ludum">LD</th>' +
-      '<th data-sort="title">Entry</th>' +
-      '<th data-sort="coolness">Coolness</th>' +
-    '</tr>');
-
-  $thead.append($theadTR);
-
-  var sEntries = _.sortByOrder(entries, [sort.col], [sort.dir]);
-
-  var $rows = _.map(sEntries, function(entry, i){
-    var $tr = $('<tr>');
-    $tr.append('<td>'+entry.ludum+'</td>');
-    $tr.append('<td><a href="'+entry.link+'" target="_blank">'+entry.title+' ('+entry.type+')</a></td>');
-    $tr.append('<td>'+entry.coolness+'</td>');
-    return $tr;
-  });
-
-  $tbody.append($rows);
-
-  $thead
-    .find('th[data-sort='+sort.col+']')
-    .addClass('sorting').addClass(sort.dir)
-    .append('<div>');
-
-  $table
-    .on('mouseover', 'td', function(){
-      var i = $(this).prevAll('td').length;
-      $(this).parent().addClass('cell-hover');
-
-      if ($(this).index() > 1) {
-        $($cols[i]).addClass('cell-hover');
-      }
-    })
-    .on('mouseout', 'td', function(){
-      var i = $(this).prevAll('td').length;
-      $(this).parent().removeClass('cell-hover');
-      $($cols[i]).removeClass('cell-hover');
-    })
-    .on('mouseleave', function(){
-      $cols.removeClass('cell-hover');
-    })
-    .on('click', 'th', function(e){
-      var th = $(this);
-      var col = th.attr('data-sort');
-
-      var isSame = th.hasClass('sorting');
-      var dir = isSame && th.hasClass('asc') ? 'desc' : 'asc';
-
-      $table.off();
-      buildCoolnessData(entries, { dir: dir, col: col });
-    });
+  return $table;
 }
 
 function buildRatesChart(entries){
@@ -574,8 +350,6 @@ function buildPositionsChart(entries){
 
   var series = catsPlusTotals.map(function(category){
     var name = category;
-    if (name === "totalCompo") name = "compo entries";
-    if (name === "totalJam") name = "jam entries";
     if (name === "total") name = "total entries";
 
     return {
@@ -650,8 +424,6 @@ function buildPositionsChart(entries){
       var idx = String.fromCharCode(97 + i);
 
       var name = category;
-      if (name === "totalCompo") name = "compo entries";
-      if (name === "totalJam") name = "jam entries";
       var $li = $('<li>'+name+'</li>');
 
       $li.on('click', function(){
