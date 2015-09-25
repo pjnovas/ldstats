@@ -139,7 +139,7 @@ function getData(categories, field) {
     };
 
     function getValue(name){
-      return entry[field] && entry[field][name] && entry[field][name] || 0;
+      return entry[field] && entry[field][name] || 0;
     }
 
     categories.forEach(function(category){
