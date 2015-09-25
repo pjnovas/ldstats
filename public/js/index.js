@@ -114,7 +114,7 @@ function buildTab(tab){
         break;
       case "percents":
         createDataTable('#percents-data', categories, window.percents, function(value){
-          if (value < 10) {
+          if (value > 0 && value < 10) {
             return '<td class="highlight">'+value+'</td>';
           }
         });
@@ -139,7 +139,7 @@ function getData(categories, field) {
     };
 
     function getValue(name){
-      return entry[field][name] && entry[field][name] || 0;
+      return entry[field] && entry[field][name] && entry[field][name] || 0;
     }
 
     categories.forEach(function(category){
