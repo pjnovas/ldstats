@@ -122,6 +122,9 @@ function buildTab(tab){
       case "coolness":
         createDataTable('#coolness-data', ['coolness'], window.author.entries);
         break;
+      case "cards":
+        createCardsSection(window.author);
+        break;
     }
 
     builtTabs.push(tab);
@@ -443,4 +446,59 @@ function buildPositionsChart(entries){
     })
   );
 
+}
+
+function createCardsSection(author){
+  var ld = 0;
+
+  var ludums = _.map(author.entries, function(entry, i){
+    if (entry.ludum > ld) { ld = entry.ludum; }
+    return entry.ludum;
+  });
+
+  $('#ludum-numbers')
+    .html(_.map(ludums, function(ludum){
+      var selected = "";
+      if (ludum === ld){
+        selected = 'selected="true"';
+      }
+      return '<option '+selected+' value="'+ludum+'">#'+ludum+'</option>';
+    }))
+    .on('change', buildCard);
+
+  $('#card-style').on('change', buildCard);
+
+  // auto select all text on focus
+  $("#sharer").focus(function() {
+    var $this = $(this);
+    $this.select();
+
+    // Work around Chrome's little problem
+    $this.mouseup(function() {
+      // Prevent further mouseup intervention
+      $this.unbind("mouseup");
+      return false;
+    });
+  });
+
+  buildCard();
+}
+
+function buildCard(){
+  var user = window.author.ldUser;
+  var ld = $('#ludum-numbers').val();
+  var style = $('#card-style').val() || "normal";
+
+  var url = "http://codepen.io/pjnovas/full/";
+
+  switch(style){
+    case "normal": url+= "yYJqyd"; break;
+    case "arcade": url+= "qONgwN"; break;
+  }
+
+  url += "?user=" + user + "&ld=" + ld;
+
+  var html = '<iframe src="'+url+'" width="100%" height="520" frameborder="0" allowtransparency="true" title="Ludum Dare CARD"></iframe>';
+  $("#card-ctn").html(html);
+  $("#sharer").val(html);
 }

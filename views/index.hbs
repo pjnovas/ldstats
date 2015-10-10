@@ -33,17 +33,18 @@
       <div class="tabs">
         <div>
           <h4>Scores</h4>
-          <a data-tab="rates" class="active">Chart</a>
-          <a data-tab="data">Grid</a>
+          <a data-tab="rates" class="active" title="Chart"><i class="fa fa-line-chart"></i></a>
+          <a data-tab="data" title="Grid"><i class="fa fa-th-list"></i></a>
         </div>
         <div>
           <h4>Standings</h4>
-          <a data-tab="standings">Chart</a>
-          <a data-tab="podium">Grid</a>
-          <a data-tab="percents">% Grid</a>
+          <a data-tab="standings" title="Chart"><i class="fa fa-line-chart"></i></a>
+          <a data-tab="podium" title="Grid"><i class="fa fa-th-list"></i></a>
+          <a data-tab="percents" title="% Grid">% <i class="fa fa-th-list"></i></a>
         </div>
         <div>
-          <a data-tab="coolness">Coolness</a>
+          <a data-tab="coolness" title="Coolness"><i class="fa fa-thumbs-up"></i></a>
+          <a data-tab="cards" title="Cards"><i class="fa fa-sticky-note"></i></a>
         </div>
       </div>
     </div>
@@ -82,6 +83,15 @@
       <div class="tab-content coolness">
         <table id="coolness-data"></table>
         <p>Values are in %</p>
+      </div>
+      <div class="tab-content cards">
+        <select id="ludum-numbers"></select>
+        <select id="card-style">
+          <option value="normal" selected="true">Default</option>
+          <option value="arcade">Arcade</option>
+        </select>
+        <div id="card-ctn"></div>
+        <textarea id="sharer"></textarea>
       </div>
     </div>
   </div>
