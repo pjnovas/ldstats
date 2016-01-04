@@ -11,7 +11,7 @@
 
 <div class="content api-page">
   <h1>API DOCS</h1>
-  <p>It's pretty straight forward, there is only one resource which is the username as an Author of Ludum Dare games.</p>
+  <p>Resource to fetch Ludum Dare entries by username. (must have an Author Page, check it by http://ludumdare.com/compo/author/[username])</p>
   <label class="hl-line">GET</label><label class="hl-line">http://ldstats.info/api/authors/[username]</label>
   <h4>JSON Response</h4>
   <pre><code class="js">
@@ -66,6 +66,33 @@
         // where total entries are 100%
       }
     }]
+  }
+  </code></pre>
+  <br/>
+  <p>Resource to fetch Ludum Dare Total Entries.</p>
+  <label class="hl-line">GET</label><label class="hl-line">http://ldstats.info/api/totals</label>
+  <h4>JSON Response</h4>
+  <pre><code class="js">
+  {
+    lastLudum: Number, // Last Ludum Dare
+    compo: [
+      Number, // LD#1
+      // ... etc
+    ],
+    jam: [
+      Number, // LD#1
+      // ... etc
+    ]
+  }
+  </code></pre>
+  <br/>
+  <p>Resource to fetch Ludum Dare Total Entries For a Ludum Number.</p>
+  <label class="hl-line">GET</label><label class="hl-line">http://ldstats.info/api/totals/[#ld]</label>
+  <h4>JSON Response</h4>
+  <pre><code class="js">
+  {
+    compo: Number, // Total entries at Compo for this #LD
+    jam: Number, // Total entries at Jam for this #LD
   }
   </code></pre>
 </div>
