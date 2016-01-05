@@ -1,6 +1,6 @@
 {
   "name": "ldstats",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Ratings API for Ludum Dare",
   "author": "Pablo Novas <pjnovas@gmail.com>",
   "license": "BSD-2-Clause",
