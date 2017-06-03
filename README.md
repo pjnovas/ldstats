@@ -4,14 +4,9 @@ Ratings API for Ludum Dare. Check it [out here](http://ldstats.info)
 ## Compile and run the project
 
 ### It's required to have installed
-* [Node 0.10+](http://nodejs.org/)
+* [Node 6.10+](http://nodejs.org/)
 * [Mongo 2.4+](https://www.mongodb.org/)
-* [NPM 2+](http://npmjs.org/)
-
-if you have npm v1 update it by
-```bash
-npm install -g npm
-```
+* [NPM 3+](http://npmjs.org/)
 
 To get started:  
 1. Clone this project  
@@ -28,4 +23,18 @@ npm install
 Now run the server:
 ```bash
 npm start
+```
+
+## Getting totals of event for new LD WebAPI:
+`https://api.ldjam.com/vx/stats/[EVENT_ID]?pretty`  
+```js
+{
+  // ...
+    "stats": {
+      // ...
+      "jam": 1841,
+      "compo": 1104,
+      // ...
+    }
+}
 ```
