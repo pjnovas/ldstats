@@ -6,7 +6,9 @@
   "license": "BSD-2-Clause",
   "main": "index.js",
   "scripts": {
-    "start": "better-npm-run dev"
+    "start": "better-npm-run dev",
+    "test": "better-npm-run test",
+    "test:watch": "npm test -- --watch"
   },
   "betterScripts": {
     "dev": {
@@ -15,11 +17,18 @@
         "NODE_PATH": ".",
         "DEBUG": "ldstats:*"
       }
+    },
+    "test": {
+      "command": "mocha --require babel-core/register --recursive --reporter spec --bail",
+      "env": {
+        "NODE_PATH": "."
+      }
     }
   },
   "dependencies": {
     "async": "^1.4.2",
     "asynch": "^0.5.2",
+    "axios": "^0.16.2",
     "babel-core": "^6.24.1",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -44,6 +53,9 @@
     "babel-eslint": "^7.2.3",
     "babel-runtime": "^6.23.0",
     "better-npm-run": "0.0.15",
-    "eslint": "^3.19.0"
+    "eslint": "^3.19.0",
+    "mocha": "^3.4.2",
+    "testdouble": "^3.0.0",
+    "unexpected": "^10.29.0"
   }
 }

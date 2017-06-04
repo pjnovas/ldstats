@@ -6,6 +6,10 @@
     "sourceType": "module",
     "ecmaFeatures": {}
   },
+  "globals": {
+    "td": true,
+    "expect": true
+  },
   "env": {
     "browser": true,
     "es6": true,
