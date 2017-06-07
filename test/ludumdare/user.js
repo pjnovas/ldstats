@@ -23,9 +23,8 @@ describe('LudumDareAPI#user', () => {
 
     td.when(axios.get(`${usersURL}/${username}`)).thenResolve(mockResponse)
 
-    ld.user(username).then(userData => {
-      expect(userData.username, 'to be', username)
-      expect(userData.id, 'to be', mockResponse.data.node)
+    ld.user(username).then(userId => {
+      expect(userId, 'to be', mockResponse.data.node)
       done()
     })
   })

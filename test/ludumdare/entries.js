@@ -1,7 +1,7 @@
 const axios = td.replace('axios')
 const LudumDareAPI = require('lib/ludumdare')
 
-describe('LudumDareAPI#entriesByUser', () => {
+describe('LudumDareAPI#userEntries', () => {
   const entriesURL = userId => `http://api.ldjam.com/vx/node/feed/${userId}/authors/item/game?limit=12`
   afterEach(() => td.reset())
 
@@ -32,7 +32,7 @@ describe('LudumDareAPI#entriesByUser', () => {
 
     td.when(axios.get(entriesURL(userId))).thenResolve(mockResponse)
 
-    ld.entriesByUser({id: userId}).then(entries => {
+    ld.userEntries(userId).then(entries => {
       expect(entries, 'to be an array')
       expect(entries, 'to equal', [16102, 50205])
       done()
