@@ -11,8 +11,15 @@
 
 <div class="content api-page">
   <h1>API DOCS</h1>
-  <p>Resource to fetch Ludum Dare entries by username. (must have an Author Page, check it by http://ludumdare.com/compo/author/[username])</p>
-  <label class="hl-line">GET</label><label class="hl-line">http://ldstats.info/api/authors/[username]</label>
+  <p><strike>Resource to fetch Ludum Dare entries by username. (must have an Author Page, check it by http://ludumdare.com/compo/author/[author])</strike></p>
+  <p><b>Since now we have 2 sites (http://ludumdare.com and https://ldjam.com) to be able to keep both entries this API will allow to "append"
+  some username from new ldjam.com into your ludumdare.com data</b></p>
+  <p><strike>
+    <label class="hl-line">GET</label><label class="hl-line">http://ldstats.info/api/authors/[author]</label>
+  </strike></p>
+  <p>
+    <label class="hl-line">GET</label><label class="hl-line">http://ldstats.info/api/authors/<b>[old author]</b>/plus/<b>[new username]</b></label>
+  </p>
   <h4>JSON Response</h4>
   <pre><code class="js">
   {
@@ -20,6 +27,12 @@
     ldUser: String, // LudumDare username
     ldUserId: String, // LudumDare UserId
     ludums: [Number], // Ludum Dare Numbers where this author participated
+
+    plus: { // appended data from ldjam
+      id: Number, // ldjam.com user Id
+      username: String, // ldjam.com username
+      link: String // like "https://ldjam.com/users/[username]"
+    }
 
     entries:[{ // Array of entries for this author
 

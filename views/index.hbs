@@ -26,7 +26,9 @@
   <div class="sec-nav">
     <div class="content">
       <div class="search">
-        <input id="username" type="text" placeholder="LudumDare username">
+        <input id="author" type="text" placeholder="OLD LudumDare author">
+        <label>+</label>
+        <input id="username" type="text" placeholder="NEW ldjam username">
         <a id="fetch">Fetch</a>
       </div>
 
@@ -107,6 +109,7 @@
 {{#if run_author}}
 <script type="text/javascript">
   window.run_author = "{{run_author}}";
+  window.run_username = "{{run_username}}";
 </script>
 {{/if}}
 
