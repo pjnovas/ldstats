@@ -5,8 +5,13 @@
     "url": null
   },
   "googleAnalytics": "UA-XXXXXXXX-X",
-  "lastLudum": 33,
+  "lastLudum": 38,
   "compo":[ // total Compo entries from last ludum to 1
+    1104,
+    901,
+    647,
+    1118,
+    1232,
     1199,
     1353,
     1364,
@@ -29,6 +34,11 @@
     0,0,0,0,0,0,0,0,0,0,0,0,0,0
   ],
   "jam":[ // total Jam entries from last ludum to 1
+    1841,
+    1489,
+    1262,
+    1594,
+    1638,
     1526,
     1468,
     1268,

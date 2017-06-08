@@ -1,17 +1,41 @@
 {
   "name": "ldstats",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "Ratings API for Ludum Dare",
   "author": "Pablo Novas <pjnovas@gmail.com>",
   "license": "BSD-2-Clause",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_PATH=. DEBUG=ldstats:* node ./bin/www"
+    "start": "better-npm-run dev",
+    "test": "better-npm-run test",
+    "test:watch": "npm test -- --watch"
+  },
+  "betterScripts": {
+    "dev": {
+      "command": "node ./bin/www",
+      "env": {
+        "NODE_PATH": ".",
+        "DEBUG": "ldstats:*"
+      }
+    },
+    "test": {
+      "command": "mocha --require babel-core/register --recursive --reporter spec --bail",
+      "env": {
+        "NODE_PATH": "."
+      }
+    }
   },
   "dependencies": {
     "async": "^1.4.2",
     "asynch": "^0.5.2",
-    "babel": "^5.8.21",
+    "axios": "^0.16.2",
+    "babel-core": "^6.24.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "bluebird": "^3.5.0",
     "body-parser": "~1.13.1",
     "cheerio": "^0.18.0",
     "cors": "^2.7.1",
@@ -24,5 +48,14 @@
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
     "superagent": "^1.4.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-runtime": "^6.23.0",
+    "better-npm-run": "0.0.15",
+    "eslint": "^3.19.0",
+    "mocha": "^3.4.2",
+    "testdouble": "^3.0.0",
+    "unexpected": "^10.29.0"
   }
 }

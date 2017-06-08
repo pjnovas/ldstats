@@ -1,10 +1,9 @@
 #!/usr/bin/env node
+require('index.babel');
 
 /**
  * Module dependencies.
  */
-
-require('babel/register')({optional: ['es7.asyncFunctions']});
 
 var app = require('lib/server');
 var debug = require('debug')('ldstats:server');

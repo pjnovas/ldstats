@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 var categories = ['overall', 'fun', 'theme', 'innovation', 'humor', 'graphics', 'audio', 'mood'];
 var builtTabs = [];
 var author, rates, positions;
@@ -19,39 +19,45 @@ function attachEvents(){
     buildTab(tab);
   });
 
-  function updateShares(author){
-    var twLink = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Fldstats.info%2F{{author}}&hashtags=ldstats&text=Checkout+my+LudumDare+Stats';
-    var fbLink = 'http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fldstats.info%2F{{author}}&t=Checkout+my+LudumDare+Stats';
-    var gpLink = 'https://plus.google.com/share?url=http%3A%2F%2Fldstats.info%2F{{author}}';
+  function updateShares(author, username){
+    var twLink = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}&hashtags=ldstats&text=Checkout+my+LudumDare+Stats';
+    var fbLink = 'http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}&t=Checkout+my+LudumDare+Stats';
+    var gpLink = 'https://plus.google.com/share?url=http%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}';
 
-    $('.zocial.icon.twitter').attr('href', twLink.replace('{{author}}', author));
-    $('.zocial.icon.facebook').attr('href', fbLink.replace('{{author}}', author));
-    $('.zocial.icon.googleplus').attr('href', gpLink.replace('{{author}}', author));
+    function setLink(at, link) {
+      $(at).attr('href', link.replace('{{author}}', author).replace('{{username}}', username));
+    }
+
+    setLink('.zocial.icon.twitter', twLink);
+    setLink('.zocial.icon.facebook', fbLink);
+    setLink('.zocial.icon.googleplus', gpLink);
   }
 
   function onFetch(atURL){
-    var author = $('#username').val();
-    if (author.trim().length){
+    var author = $('#author').val();
+    var username = $('#username').val();
 
+    if (author.trim().length) {
       if (!atURL && window.history && window.history.pushState){
-        window.history.pushState(null, null, "/" + author);
+        window.history.pushState(null, null, "/" + author + "/" + username.trim());
       }
 
       updateShares(author);
 
       $('.loading').show();
       clearView();
-      fetchAuthor(author.trim());
+      fetchAuthor(author.trim(), username.trim());
     }
   }
 
   $('#fetch').on('click', onFetch)
-  $('#username').on('keyup', function(e){
+  $('#username,#author').on('keyup', function(e){
     if (e.keyCode === 13) onFetch();
   });
 
-  if (window.run_author){
-    $('#username').val(window.run_author);
+  if (window.run_author || window.run_username){
+    $('#author').val(window.run_author || '');
+    $('#username').val(window.run_username || '');
     onFetch(true);
   }
 }
@@ -61,11 +67,11 @@ function clearView(){
   $('.ct-chart-rates, .rates-data, .position-data, .categories').empty();
 }
 
-function fetchAuthor(author){
+function fetchAuthor(author, username){
   $('.not-found').hide();
   $('.tabs-ctn, .tabs').hide();
 
-  $.get('/api/authors/' + author)
+  $.get('/api/authors/' + author + (username ? '/plus/' + username : ''))
     .done(function(author){
       $('.tabs-ctn, .tabs').show();
 

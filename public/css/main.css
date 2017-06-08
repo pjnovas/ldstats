@@ -150,6 +150,10 @@ select {
   display: block;
 }
 
+.search label {
+  font-size: 20px;
+}
+
 .loading {
   position: absolute;
   width: 100%;
@@ -188,11 +192,11 @@ select {
   color: #333;
 }
 
-#username {
+#author, #username {
   border: none;
   padding: 10px;
   font-size: 14px;
-  min-width: 200px;
+  min-width: 120px;
 }
 
 .content {
