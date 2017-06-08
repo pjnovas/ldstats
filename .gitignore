@@ -32,3 +32,4 @@ node_modules
 config/config.json
 config/config.prod.json
 test*.html
+pm2.json
