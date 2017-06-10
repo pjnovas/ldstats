@@ -42,7 +42,7 @@ function attachEvents(){
         window.history.pushState(null, null, "/" + author + "/" + username.trim());
       }
 
-      updateShares(author);
+      updateShares(author, username);
 
       $('.loading').show();
       clearView();
@@ -491,18 +491,19 @@ function createCardsSection(author){
 }
 
 function buildCard(){
-  var user = window.author.ldUser;
+  var author = window.author.ldUser;
+  var username = window.author.plus && window.author.plus.username || '';
   var ld = $('#ludum-numbers').val();
   var style = $('#card-style').val() || "normal";
 
-  var url = "http://codepen.io/pjnovas/full/";
+  var url = "https://codepen.io/pjnovas/full/";
 
   switch(style){
     case "normal": url+= "yYJqyd"; break;
     case "arcade": url+= "qONgwN"; break;
   }
 
-  url += "?user=" + user + "&ld=" + ld;
+  url += "?user=" + author + "&ld=" + ld + (username ? "&username=" + username : '');
 
   var html = '<iframe src="'+url+'" width="100%" height="520" frameborder="0" allowtransparency="true" title="Ludum Dare CARD"></iframe>';
   $("#card-ctn").html(html);
