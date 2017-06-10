@@ -21,7 +21,7 @@ function attachEvents(){
 
   function updateShares(author, username){
     var twLink = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}&hashtags=ldstats&text=Checkout+my+LudumDare+Stats';
-    var fbLink = 'http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}&t=Checkout+my+LudumDare+Stats';
+    var fbLink = 'https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}&t=Checkout+my+LudumDare+Stats';
     var gpLink = 'https://plus.google.com/share?url=http%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}';
 
     function setLink(at, link) {
