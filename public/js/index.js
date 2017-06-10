@@ -50,7 +50,9 @@ function attachEvents(){
     }
   }
 
-  $('#fetch').on('click', onFetch)
+  $('#fetch').on('click', function() {
+    onFetch()
+  })
   $('#username,#author').on('keyup', function(e){
     if (e.keyCode === 13) onFetch();
   });
