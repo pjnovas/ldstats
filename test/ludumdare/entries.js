@@ -2,7 +2,7 @@ const axios = td.replace('axios')
 const LudumDareAPI = require('lib/ludumdare')
 
 describe('LudumDareAPI#userEntries', () => {
-  const entriesURL = userId => `http://api.ldjam.com/vx/node/feed/${userId}/authors/item/game?limit=12`
+  const entriesURL = userId => `http://api.ludumdare.com/vx/node/feed/${userId}/authors/item/game?limit=12`
   afterEach(() => td.reset())
 
   it('should fetch and resolve the entries by user', done => {
