@@ -26,7 +26,7 @@ npm start
 ```
 
 ## Getting totals of event for new LD WebAPI:
-`https://api.ldjam.com/vx/stats/[EVENT_ID]?pretty`  
+`https://api.ludumdare.com/vx/stats/[EVENT_ID]?pretty`  
 ```js
 {
   // ...
