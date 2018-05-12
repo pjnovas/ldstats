@@ -1,4 +1,5 @@
 const axios = td.replace('axios')
+const {noop} = require('lodash');
 const LudumDareAPI = require('lib/ludumdare')
 
 describe('LudumDareAPI#entry', () => {
@@ -109,6 +110,82 @@ describe('LudumDareAPI#entry', () => {
         }
       })
 
+      done()
+    })
+  })
+
+  it('should not resolve entry if ludum dare number has no results yet', done => {
+    let ld = new LudumDareAPI()
+
+    let entryId = 1001
+    let mockResponse = {
+      status: 200,
+      data: {
+        status: 200,
+        caller_id: 0,
+        cached: [
+          84015
+        ],
+        node: [
+          {
+            id: 84015,
+            parent: 73256,
+            superparent: 9,
+            author: 2840,
+            type: 'item',
+            subtype: 'game',
+            subsubtype: 'compo',
+            published: '2018-04-23T01:51:26Z',
+            created: '2018-04-20T20:55:59Z',
+            modified: '2018-04-23T01:58:41Z',
+            version: 250112,
+            slug: 'legend-of-zoom',
+            name: 'Legend of Zoom',
+            body: 'test',
+            meta: {
+              author: [
+                2840
+              ],
+              cover: '///content/81b/z/10f2a.png',
+              'allow-anonymous-comments': '1',
+              'link-01': 'https://savagehill.itch.io/legend-of-zoom',
+              'link-01-tag': '42336',
+              'link-02': 'http://ricefrog.com/LD41/LegendOfZoom-Source.zip',
+              'link-02-tag': '42332',
+              'link-03': 'https://savagehill.itch.io/legend-of-zoom',
+              'link-03-tag': '42337'
+            },
+            path: '/events/ludum-dare/41/legend-of-zoom',
+            parents: [1, 5, 9, 73256],
+            love: 0,
+            notes: 50,
+            'notes-timestamp': '2018-05-08T12:29:59Z',
+            grade: {
+              'grade-01': 48,
+              'grade-02': 49,
+              'grade-03': 48,
+              'grade-04': 48,
+              'grade-05': 49,
+              'grade-06': 42,
+              'grade-07': 44,
+              'grade-08': 46
+            },
+            magic: {
+              cool: 95.385327256018,
+              feedback: 54,
+              given: 41.625,
+              grade: 46.75,
+              smart: 17.447732414237
+            }
+          }
+        ]
+      }
+    }
+
+    td.when(axios.get(`${entryURL}/${entryId}`)).thenResolve(mockResponse)
+
+    ld.entry(entryId).then(entry => {
+      expect(entry, 'to equal', noop())
       done()
     })
   })

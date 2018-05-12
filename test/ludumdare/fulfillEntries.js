@@ -1,4 +1,5 @@
 const LudumDareAPI = require('lib/ludumdare')
+const {noop} = require('lodash')
 
 describe('LudumDareAPI#fulfillEntries', () => {
   afterEach(() => td.reset())
@@ -9,14 +10,13 @@ describe('LudumDareAPI#fulfillEntries', () => {
 
     ld.entry = td.func()
 
-    td.when(ld.entry(1), {ignoreExtraArgs: true}).thenResolve({entry: 1})
+    td.when(ld.entry(1), {ignoreExtraArgs: true}).thenResolve(noop())
     td.when(ld.entry(2), {ignoreExtraArgs: true}).thenResolve({entry: 2})
     td.when(ld.entry(3), {ignoreExtraArgs: true}).thenResolve({entry: 3})
 
     ld.fulfillEntries(entryIds).then(entries => {
       expect(entries, 'to be an array')
       expect(entries, 'to equal', [
-        {entry: 1},
         {entry: 2},
         {entry: 3}
       ])
