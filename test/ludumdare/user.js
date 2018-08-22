@@ -2,7 +2,7 @@ const axios = td.replace('axios')
 const LudumDareAPI = require('lib/ludumdare')
 
 describe('LudumDareAPI#user', () => {
-  const usersURL = 'http://api.ludumdare.com/vx/node/walk/1/users'
+  const usersURL = 'http://api.ldjam.com/vx/node/walk/1/users'
   afterEach(() => td.reset())
 
   it('should fetch and resolve with a user id', done => {

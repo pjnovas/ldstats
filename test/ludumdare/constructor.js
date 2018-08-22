@@ -22,9 +22,9 @@ describe('LudumDareAPI#constructor', () =>{
 describe('LudumDareAPI#getUrl', () =>{
   it('should return a base url using current properties', () => {
     let ld = new LudumDareAPI({ssl: true, version: 'x'})
-    expect(ld.getUrl(), 'to be', 'https://api.ludumdare.com/vx')
+    expect(ld.getUrl(), 'to be', 'https://api.ldjam.com/vx')
 
     ld = new LudumDareAPI({ssl: false, version: 1})
-    expect(ld.getUrl(), 'to be', 'http://api.ludumdare.com/v1')
+    expect(ld.getUrl(), 'to be', 'http://api.ldjam.com/v1')
   })
 })

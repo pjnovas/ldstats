@@ -3,7 +3,7 @@ const {noop} = require('lodash');
 const LudumDareAPI = require('lib/ludumdare')
 
 describe('LudumDareAPI#entry', () => {
-  const entryURL = 'http://api.ludumdare.com/vx/node/get'
+  const entryURL = 'http://api.ldjam.com/vx/node/get'
   afterEach(() => td.reset())
 
   it('should fetch and resolve an entry by id', done => {
@@ -80,7 +80,6 @@ describe('LudumDareAPI#entry', () => {
     }
 
     td.when(axios.get(`${entryURL}/${entryId}`)).thenResolve(mockResponse)
-
     ld.entry(entryId).then(entry => {
       expect(entry, 'to equal', {
         ludum: 38,
@@ -114,7 +113,8 @@ describe('LudumDareAPI#entry', () => {
     })
   })
 
-  it('should not resolve entry if ludum dare number has no results yet', done => {
+  // Double check this scenario since it's not happening anymore
+  xit('should not resolve entry if ludum dare number has no results yet', done => {
     let ld = new LudumDareAPI()
 
     let entryId = 1001
