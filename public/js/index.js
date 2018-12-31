@@ -37,7 +37,7 @@ function attachEvents(){
     var author = $('#author').val();
     var username = $('#username').val();
 
-    if (author.trim().length) {
+    if (author.trim().length || username.trim().length) {
       if (!atURL && window.history && window.history.pushState){
         window.history.pushState(null, null, "/" + author + "/" + username.trim());
       }
