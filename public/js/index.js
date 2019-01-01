@@ -37,17 +37,23 @@ function attachEvents(){
     var author = $('#author').val();
     var username = $('#username').val();
 
-    if (author.trim().length || username.trim().length) {
+    if (author.trim().length) {
       if (!atURL && window.history && window.history.pushState){
         window.history.pushState(null, null, "/" + author + "/" + username.trim());
       }
-
-      updateShares(author, username);
-
-      $('.loading').show();
-      clearView();
-      fetchAuthor(author.trim(), username.trim());
+    } else if (username.trim().length) {
+      if (!atURL && window.history && window.history.pushState){
+        window.history.pushState(null, null, "/none/only/" + username.trim());
+      }
+    } else {
+      return;
     }
+
+    updateShares(author, username);
+
+    $('.loading').show();
+    clearView();
+    fetchAuthor(author.trim(), username.trim());
   }
 
   $('#fetch').on('click', function() {
@@ -73,7 +79,17 @@ function fetchAuthor(author, username){
   $('.not-found').hide();
   $('.tabs-ctn, .tabs').hide();
 
-  $.get('/api/authors/' + author + (username ? '/plus/' + username : ''))
+  //creates api call based on if just one or both usernames are entered
+  let apiCall = '/' + author + '/plus/' + username;
+  //if there is no ludumdare.com/compo author
+  if (!author) {
+    apiCall = '/none/only/' + username;
+  } else if (!username) {
+    //if there is only a ludumdare.com/compo author
+    apiCall = '/' + author;
+  }
+
+  $.get('/api/authors' + apiCall)
     .done(function(author){
       $('.tabs-ctn, .tabs').show();
 
