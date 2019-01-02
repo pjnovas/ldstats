@@ -24,6 +24,11 @@ function attachEvents(){
     var fbLink = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}&t=Checkout+my+LudumDare+Stats';
     var gpLink = 'https://plus.google.com/share?url=https%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}';
 
+    if (!author) {
+      //if there is no author, just an ldjam username, set it to the prefix for only an ldjam username
+      author = "none/only"
+    }
+
     function setLink(at, link) {
       $(at).attr('href', link.replace('{{author}}', author).replace('{{username}}', username));
     }
