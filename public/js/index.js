@@ -24,6 +24,11 @@ function attachEvents(){
     var fbLink = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}&t=Checkout+my+LudumDare+Stats';
     var gpLink = 'https://plus.google.com/share?url=https%3A%2F%2Fldstats.info%2F{{author}}%2F{{username}}';
 
+    if (!author) {
+      //if there is no author, just an ldjam username, set it to the prefix for only an ldjam username
+      author = "none/only"
+    }
+
     function setLink(at, link) {
       $(at).attr('href', link.replace('{{author}}', author).replace('{{username}}', username));
     }
@@ -41,13 +46,19 @@ function attachEvents(){
       if (!atURL && window.history && window.history.pushState){
         window.history.pushState(null, null, "/" + author + "/" + username.trim());
       }
-
-      updateShares(author, username);
-
-      $('.loading').show();
-      clearView();
-      fetchAuthor(author.trim(), username.trim());
+    } else if (username.trim().length) {
+      if (!atURL && window.history && window.history.pushState){
+        window.history.pushState(null, null, "/none/only/" + username.trim());
+      }
+    } else {
+      return;
     }
+
+    updateShares(author, username);
+
+    $('.loading').show();
+    clearView();
+    fetchAuthor(author.trim(), username.trim());
   }
 
   $('#fetch').on('click', function() {
@@ -73,7 +84,17 @@ function fetchAuthor(author, username){
   $('.not-found').hide();
   $('.tabs-ctn, .tabs').hide();
 
-  $.get('/api/authors/' + author + (username ? '/plus/' + username : ''))
+  //creates api call based on if just one or both usernames are entered
+  let apiCall = '/' + author + '/plus/' + username;
+  //if there is no ludumdare.com/compo author
+  if (!author) {
+    apiCall = '/none/only/' + username;
+  } else if (!username) {
+    //if there is only a ludumdare.com/compo author
+    apiCall = '/' + author;
+  }
+
+  $.get('/api/authors' + apiCall)
     .done(function(author){
       $('.tabs-ctn, .tabs').show();
 
