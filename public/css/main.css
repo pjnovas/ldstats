@@ -196,7 +196,12 @@ select {
   border: none;
   padding: 10px;
   font-size: 14px;
-  min-width: 120px;
+  min-width: 210px;
+}
+
+.hint {
+  margin-top: 0;
+  margin-bottom: 5px;
 }
 
 .content {

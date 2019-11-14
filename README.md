@@ -38,3 +38,8 @@ npm start
     }
 }
 ```
+
+## Contributors (thanks!)
+* Ajay Ramachandran - [@ajayyy](https://github.com/ajayyy)
+* Aurel - [@Aurel300](https://github.com/Aurel300)
+
