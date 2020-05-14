@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="{{description}}">
+<head>
+  <title>{{title}}</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta property="og:title" content="{{title}}">
-    <meta property="og:description" content="{{description}}">
-    <meta property="og:url" content="{{url}}">
-    <meta property="og:site_name" content="{{title}}">
-    <meta property="og:type" content="website">
+  <meta name="description" content="{{description}}">
 
-    <meta property="twitter:card" content="summary">
-    <meta property="twitter:title" content="{{title}}">
-    <meta property="twitter:description" content="{{description}}">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:url" content="{{url}}">
+  <meta property="og:site_name" content="{{title}}">
+  <meta property="og:type" content="website">
 
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="icon" href="/favicon.ico">
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:title" content="{{title}}">
+  <meta property="twitter:description" content="{{description}}">
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/0.9.4/chartist.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css-social-buttons/1.1.1/css/zocial.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/main.css?v={{{version}}}">
-  </head>
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" href="/favicon.ico">
 
-  <body>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/0.11.0/chartist.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css-social-buttons/1.1.1/css/zocial.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/main.css?v={{{version}}}">
+</head>
 
-    {{{body}}}
+<body>
 
-    {{#showGA}}
-    <script type='text/javascript'>
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', '{{googleAnalytics}}']);
-      _gaq.push(['_trackPageview']);
+  {{{body}}}
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
-    {{/showGA}}
+  {{#showGA}}
+  <script type='text/javascript'>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '{{googleAnalytics}}']);
+    _gaq.push(['_trackPageview']);
 
-  </body>
+    (function () {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  {{/showGA}}
+
+</body>
+
 </html>

@@ -346,9 +346,6 @@ function buildRatesChart(entries) {
     {
       high: 5,
       low: 0,
-      lineSmooth: Chartist.Interpolation.simple({
-        divisor: 4,
-      }),
       chartPadding: {
         top: 20,
         right: 120,
@@ -464,7 +461,7 @@ function buildPositionsChart(entries) {
     },
     {
       high: -1,
-      //low: -3000,
+      // low: -3500,
       chartPadding: {
         top: 20,
         right: 120,
