@@ -11,18 +11,22 @@
 
 <div class="content api-page">
   <h1>API DOCS</h1>
-  <p><strike>Resource to fetch Ludum Dare entries by username. (must have an Author Page, check it by http://ludumdare.com/compo/author/[author])</strike></p>
-  <p><b>Since now we have 2 sites (http://ludumdare.com and https://ldjam.com) to be able to keep both entries this API will allow to "append"
-  some username from new ldjam.com into your ludumdare.com data</b></p>
-  <p><strike>
-    <label class="hl-line">GET</label><label class="hl-line">https://ldstats.info/api/authors/[author]</label>
-  </strike></p>
+  <p><strike>Resource to fetch Ludum Dare entries by username. (must have an Author Page, check it by
+      http://ludumdare.com/compo/author/[author])</strike></p>
+  <p><b>Since now we have 2 sites (http://ludumdare.com and https://ldjam.com) to be able to keep both entries this API
+      will allow to "append"
+      some username from new ldjam.com into your ludumdare.com data</b></p>
   <p>
-    <label class="hl-line">GET</label><label class="hl-line">https://ldstats.info/api/authors/<b>[old author]</b>/plus/<b>[new username]</b></label>
+    <label class="hl-line">GET</label><label class="hl-line">https://ldstats.info/api/authors/[old author]</label>
+  </p>
+  <p>
+    <label class="hl-line">GET</label><label class="hl-line">https://ldstats.info/api/authors/<b>[old
+        author]</b>/plus/<b>[new username]</b></label>
   </p>
   <p>Or the following for just pulling from the new site.</p>
   <p>
-    <label class="hl-line">GET</label><label class="hl-line">https://ldstats.info/api/authors/none/only/<b>[new username]</b></label>
+    <label class="hl-line">GET</label><label class="hl-line">https://ldstats.info/api/authors/none/only/<b>[new
+        username]</b></label>
   </p>
   <h4>JSON Response</h4>
   <pre><code class="js">
@@ -85,7 +89,7 @@
     }]
   }
   </code></pre>
-  <br/>
+  <br />
   <p>Resource to fetch Ludum Dare Total Entries.</p>
   <label class="hl-line">GET</label><label class="hl-line">https://ldstats.info/api/totals</label>
   <h4>JSON Response</h4>
@@ -102,7 +106,7 @@
     ]
   }
   </code></pre>
-  <br/>
+  <br />
   <p>Resource to fetch Ludum Dare Total Entries For a Ludum Number.</p>
   <label class="hl-line">GET</label><label class="hl-line">https://ldstats.info/api/totals/[#ld]</label>
   <h4>JSON Response</h4>
