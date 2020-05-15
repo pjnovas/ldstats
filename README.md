@@ -4,20 +4,19 @@ Ratings API for Ludum Dare. Check it [out here](http://ldstats.info)
 
 ## Compile and run the project
 
-### It's required to have installed
+### Quickly using docker:
+
+```bash
+docker-compose up
+```
+
+### Without docker:
+
+Requirements:
 
 - [Node 10+](http://nodejs.org/)
 - [Mongo 3+](https://www.mongodb.org/)
 - [NPM 6.9+](http://npmjs.org/)
-
-To get started:
-
-1. Clone this project
-2. `cd ldstats/`
-
-To configure the server you must add a `config/config.json`, a config.sample file can be used as a base for that file.
-
-After created that config file:
 
 ```bash
 npm install
@@ -26,7 +25,7 @@ npm install
 Now run the server:
 
 ```bash
-npm start
+MONGO_URL=mongodb://[Your-mongo-conn-string]/ldstats npm start
 ```
 
 ## Getting totals of event for new LD WebAPI:
@@ -44,6 +43,8 @@ npm start
     }
 }
 ```
+
+And update latest LD and those totals in `./config.json`
 
 ## Contributors (thanks!)
 

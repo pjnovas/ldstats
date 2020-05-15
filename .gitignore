@@ -29,7 +29,5 @@ node_modules
 # Debug log from npm
 npm-debug.log*
 node_modules
-config/config.json
-config/config.prod.json
 test*.html
 pm2.json
