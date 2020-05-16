@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  api:
+    container_name: ldstats_api
+    restart: always
+    build: .
+    ports:
+      - "4000:8080"
+    environment:
+      - MONGO_URL=mongodb://db/ldstats
+    links:
+      - db
+    volumes:
+      - .:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    networks:
+      - app-network
+
+  db:
+    container_name: ldstats_db
+    image: mongo:3-xenial
+    restart: unless-stopped
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  node_modules:

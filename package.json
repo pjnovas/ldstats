@@ -14,6 +14,7 @@
     "dev": {
       "command": "node ./bin/www",
       "env": {
+        "PORT": 4000,
         "NODE_PATH": ".",
         "DEBUG": "ldstats:*"
       }
