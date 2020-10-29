@@ -328,14 +328,24 @@ function buildRatesChart(entries) {
     return "LD" + entry.ludum;
   });
 
-  var series = catsPlusAVG.map(function (category) {
+  function getSeriesForCategory(category) {
     return {
       name: category,
       data: _.map(aentries, function (entry) {
         return entry[category] || null;
-      }),
+      })
     };
-  });
+  }
+
+  function hasDataPoint(serie) {
+    return serie.data.some(function(dataPoint) {
+      return dataPoint !== null;
+    });
+  }
+
+  var series = catsPlusAVG.map(function (category) {
+    return getSeriesForCategory(category);
+  }).filter(hasDataPoint);
 
   var chart = new Chartist.Line(
     ".ct-chart-rates",
@@ -401,18 +411,27 @@ function buildRatesChart(entries) {
 
   var $categories = $(".rates .categories");
 
+  var assignedCount = 0;
+  var skippedCategories = [];
   $categories.empty().append(
-    catsPlusAVG.map(function (category, i) {
-      var idx = String.fromCharCode(97 + i);
+    catsPlusAVG.map(function (category) {
+      var seriesOfCategory = getSeriesForCategory(category);
+      if (!hasDataPoint(seriesOfCategory)) {
+        // we didn't generate lines for empty categories, so we should also not generate the label
+        skippedCategories.push(category);
+        return null;
+      }
+
+      var idx = String.fromCharCode(97 + assignedCount);
+      assignedCount++;
       var $li = $("<li>" + category + "</li>");
 
       if (category === "average") {
-        $li.addClass("off");
+        $li.addClass("off last");
       }
 
       $li.on("click", function () {
         var el = $(this);
-
         if (el.hasClass("off")) {
           el.removeClass("off");
           $("g.ct-series-" + idx, ".ct-chart-rates").show();
@@ -426,6 +445,10 @@ function buildRatesChart(entries) {
       return $li;
     })
   );
+
+  skippedCategories.forEach(function(category) {
+    $categories.append($("<li>" + category + "</li>").addClass("skipped"));
+  });
 
   chart.on("created", function () {
     var i = catsPlusAVG.length - 1;
@@ -441,7 +464,7 @@ function buildPositionsChart(entries) {
     return "LD" + entry.ludum;
   });
 
-  var series = catsPlusTotals.map(function (category) {
+  function getSeriesForCategory(category) {
     var name = category;
     if (name === "total") name = "total entries";
 
@@ -451,7 +474,17 @@ function buildPositionsChart(entries) {
         return (entry[category] && entry[category] * -1) || null;
       }),
     };
-  });
+  }
+
+  function hasDataPoint(serie) {
+    return serie.data.some(function(dataPoint) {
+      return dataPoint !== null;
+    });
+  }
+
+  var series = catsPlusTotals.map(function (category) {
+    return getSeriesForCategory(category);
+  }).filter(hasDataPoint);
 
   var chart = new Chartist.Line(
     ".ct-chart-standings",
@@ -520,12 +553,25 @@ function buildPositionsChart(entries) {
 
   var $categories = $(".standings .categories");
 
+  var assignedCount = 0;
+  var skippedCategories = [];
   $categories.empty().append(
-    catsPlusTotals.map(function (category, i) {
-      var idx = String.fromCharCode(97 + i);
+    catsPlusTotals.map(function (category) {
+      var seriesOfCategory = getSeriesForCategory(category);
+      if (!hasDataPoint(seriesOfCategory)) {
+        // we didn't generate lines for empty categories, so we should also not generate the label
+        skippedCategories.push(category);
+        return null;
+      }
 
+      var idx = String.fromCharCode(97 + assignedCount);
+      assignedCount++;
       var name = category;
       var $li = $("<li>" + name + "</li>");
+
+      if (category === "total") {
+        $li.addClass("last");
+      }
 
       $li.on("click", function () {
         var el = $(this);
@@ -543,6 +589,10 @@ function buildPositionsChart(entries) {
       return $li;
     })
   );
+
+  skippedCategories.forEach(function(category) {
+    $categories.append($("<li>" + category + "</li>"));
+  });
 }
 
 function createCardsSection(author) {
